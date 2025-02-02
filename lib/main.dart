@@ -1,147 +1,113 @@
 import 'package:flutter/material.dart';
-import 'package:toonflix/widgets/button.dart';
-import 'package:toonflix/widgets/currency_card.dart';
-
-class Player {
-  String? name;
-  Player(this.name);
-}
 
 void main() {
-  // var player = Player('seung');
-  // print(player.name);
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isShowTitle = true;
+
+  void toggleTitle() {
+    setState(() {
+      isShowTitle = !isShowTitle;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Color(0xff181818),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(40.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          'Hey, Selena',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          'Welcome back',
-                          style: TextStyle(
-                            color: Colors.white.withAlpha(150),
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  'Total Balance',
-                  style: TextStyle(
-                    color: Colors.white.withAlpha(150),
-                    fontSize: 35,
-                  ),
-                ),
-                Text(
-                  '\$ 5 194 482',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 50,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MyButton(
-                      text: 'Transfer',
-                      backgroundColor: Color(0xfff2b33a),
-                      textColor: Colors.black,
-                    ),
-                    MyButton(
-                      text: 'Request',
-                      backgroundColor: Color(0xff1f2123),
-                      textColor: Colors.white,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Wallets',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    Text(
-                      'View all',
-                      style: TextStyle(
-                        color: Colors.white.withAlpha(150),
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CurrencyCard(
-                  name: 'Euro',
-                  amount: '6 428',
-                  code: 'EUR',
-                  icon: Icons.euro_rounded,
-                  order: 1,
-                ),
-                CurrencyCard(
-                  name: 'Dollar',
-                  amount: '55 522',
-                  code: 'USD',
-                  icon: Icons.attach_money_rounded,
-                  order: 2,
-                ),
-                CurrencyCard(
-                  name: 'Bitcoin',
-                  amount: '9 785',
-                  code: 'BTC',
-                  icon: Icons.currency_bitcoin_rounded,
-                  order: 3,
-                ),
-              ],
-            ),
+      theme: ThemeData(
+        textTheme: TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.red,
+            fontSize: 100,
           ),
         ),
+      ),
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              isShowTitle ? MyLargeTitle() : Text('nothing showing'),
+              IconButton(
+                onPressed: toggleTitle,
+                icon: Icon(Icons.remove_red_eye),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// class MyLargeTitle extends StatelessWidget {
+//   const MyLargeTitle({
+//     super.key,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Text(
+//       'Large Title',
+//       style: TextStyle(
+//         fontSize: 30,
+//         color: Theme.of(context)
+//             .textTheme
+//             .titleLarge
+//             ?.color, // MyLargeTitle widget doesn't know if the textTheme.titleLarge is set or not
+//       ),
+//     );
+//   }
+// }
+
+class MyLargeTitle extends StatefulWidget {
+  const MyLargeTitle({
+    super.key,
+  });
+
+  @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  int count = 0; // 대부분의 경우 여기에 상태 변수를 초기화할 수 있습니다. 그리고 이걸로 충분해요.
+
+  @override
+  void initState() {
+    // 부모 위젯에 의존하는 데이터를 초기화할 경우.
+    // build 메서드보다 먼저 호출됩니다.
+
+    super.initState(); // 반드시 호출해야 합니다.
+    print("Hello initState in MyLargeTitle");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print("Bye dispose in MyLargeTitle");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("Hello build in MyLargeTitle");
+    return Text(
+      'Large Title',
+      style: TextStyle(
+        fontSize: 30,
+        color: Theme.of(context)
+            .textTheme
+            .titleLarge
+            ?.color, // MyLargeTitle widget doesn't know if the textTheme.titleLarge is set or not
       ),
     );
   }
